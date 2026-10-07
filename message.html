@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Gift For You 🌸</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff5f8;
+            background-image: radial-gradient(#ffd6e8 1px, transparent 1px);
+            background-size: 24px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        /* Audio Player Mini */
+        .audio-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #d46a89;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+            cursor: pointer;
+            border: 1px solid #ffe3ed;
+        }
+        /* Wrapper Amplop */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #fca5a5;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #fca5a5;
+            transform-origin: bottom;
+            transition: transform 0.4s 0.2s ease;
+            z-index: 4;
+        }
+        .envelope::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid #f87171;
+            border-right: 150px solid #f87171;
+            border-bottom: 200px solid transparent;
+            border-radius: 0 0 12px 12px;
+            z-index: 3;
+        }
+        .front-flap {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid #ef4444;
+            border-radius: 0 0 12px 12px;
+            z-index: 3;
+        }
+        /* Surat di dalam amplop */
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            width: 270px;
+            height: 180px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.4s ease, z-index 0s 0.4s;
+            z-index: 2;
+            text-align: center;
+        }
+        .letter h1 {
+            font-size: 16px;
+            color: #991b1b;
+            margin-bottom: 8px;
+        }
+        .letter p {
+            font-size: 11px;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        /* Petunjuk klik */
+        .hint {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            font-size: 13px;
+            color: #be123c;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+        /* Keadaan saat amplop Terbuka */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        .envelope-wrapper.open .letter {
+            transform: translateY(-130px);
+            z-index: 5;
+            height: auto;
+            max-height: 320px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        .envelope-wrapper.open .hint {
+            display: none;
+        }
+        /* Buket Bunga Kecil Hiasan */
+        .flower-icon {
+            font-size: 30px;
+            margin-top: 10px;
+            animation: bounce 2s infinite;
+        }
+        /* Tombol Interaktif */
+        .btn-reply {
+            display: inline-block;
+            margin-top: 12px;
+            background: #ff6584;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            font-size: 11px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn-reply:hover {
+            background: #ff3366;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Musik Pengiring Latar Belakang (Bisa diganti URL musik instrumen favoritmu) -->
+    <div class="audio-player" onclick="togglePlay()">🎵 Play Music</div>
+    <audio id="bgMusic" loop>
+        <source src="https://soundhelix.com" type="audio/mpeg">
+    </audio>
+
+    <div class="envelope-wrapper" id="envelopeWrap" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="front-flap"></div>
+        </div>
+        <div class="letter" id="cardLetter">
+            <div class="flower-icon">🌷✨</div>
+            <h1>Get Well Soon!</h1>
+            <p>"Eh, denger kabar dari anak-anak katanya kamu drop setelah pulang dari kafe kemarin? Makanya pas ketemu kemarin muka kamu lemes banget. Gak usah mikirin tugas sekolah dulu ya, fokus istirahat total dan minum obat. Semoga lekas pulih dan besok badannya udah seger lagi!"</p>
+            <button class="btn-reply" onclick="sendLove(event)">Kirim Cepat Sembuh ❤️</button>
+        </div>
+        <div class="hint">Klik Amplop untuk Membuka 💌</div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            const wrapper = document.getElementById('envelopeWrap');
+            wrapper.classList.add('open');
+            // Putar musik otomatis saat dibuka jika diizinkan browser
+            const music = document.getElementById('bgMusic');
+            music.play().catch(() => {});
+        }
+
+        function togglePlay() {
+            const music = document.getElementById('bgMusic');
+            const playerBtn = document.querySelector('.audio-player');
+            if (music.paused) {
+                music.play();
+                playerBtn.innerText = "⏸️ Pause Music";
+            } else {
+                music.pause();
+                playerBtn.innerText = "🎵 Play Music";
+            }
+        }
+
+        function sendLove(event) {
+            event.stopPropagation(); // Mencegah efek klik amplop keulang
+            alert('Doa lekas sembuhmu berhasil dikirimkan virtual! 🌸');
+        }
+    </script>
+</body>
+</html>
